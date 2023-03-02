@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+html {
+  box-sizing: border-box;
+}
+
+*:after,
+*:before {
+  box-sizing: inherit;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(144, 141, 189);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calculator {
+  background-color: black;
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(4, 80px);
+  grid-template-rows: minmax(100px, auto) repeat(5, 80px);
+  gap: 5px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.display {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  padding-bottom: 12px;
+  font-family: "Press Start 2P", sans-serif;
+  font-size: 2.2em;
+}
+
+#zero {
+  grid-column: span 2;
+}
+
+button {
+  border: none;
+  border-radius: 4px;
+  font-size: 1.5em;
+}
+
+.operand,
+.decimal {
+  background-color: rgb(183, 180, 226);
+}
+
+.clear,
+.percent,
+.sign {
+  background-color: rgb(207, 93, 93);
+}
+
+.operator,
+.equal {
+  background-color: rgb(228, 122, 83);
+}
