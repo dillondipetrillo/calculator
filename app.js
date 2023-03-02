@@ -1,27 +1,42 @@
-// Add
-const add = (num1, num2) => num1 + num2;
+const numbers = document.querySelectorAll("[data-operand]");
+const operators = document.querySelectorAll("[data-operator]");
+const displayText = document.querySelector(".display-text");
+const prev = document.querySelector(".prev-num");
 
-// Substract
-const subtract = (num1, num2) => num1 - num2;
+let currNum = "";
+let prevNum = "";
+let isOperatorSet = false;
 
-// Multiply
-const multiply = (num1, num2) => num1 * num2;
+const appendNum = (e) => {
+  if (isOperatorSet) {
+    displayText.textContent = "";
+    currNum = "";
 
-// Divide
-const divide = (num1, num2) => num1 / num2;
+    displayText.textContent = e.target.textContent;
+    currNum = e.target.textContent;
 
-// Run operations
-const operate = (operator, num1, num2) => {
-  switch (operator) {
-    case "+":
-      return add(num1, num2);
-    case "-":
-      return subtract(num1, num2);
-    case "*":
-      return multiply(num1, num2);
-    case "/":
-      return divide(num1, num2);
-    default:
-      return;
+    isOperatorSet = false;
+    return;
+  }
+
+  if (displayText.textContent.length === 11) return;
+  if (displayText.textContent === "0") {
+    displayText.textContent = e.target.textContent;
+    currNum = e.target.textContent;
+  } else {
+    displayText.textContent += e.target.textContent;
+    currNum += e.target.textContent;
   }
 };
+
+const setOperator = (e) => {
+  prevNum = Number(currNum);
+  prev.textContent = prevNum;
+  isOperatorSet = true;
+};
+
+numbers.forEach((number) => number.addEventListener("click", appendNum));
+
+operators.forEach((operator) =>
+  operator.addEventListener("click", setOperator)
+);
