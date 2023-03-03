@@ -86,3 +86,7 @@ button {
   background-color: orange;
   color: #fff;
 }
+
+.pressed {
+  background-color: rgb(156, 105, 9);
+}
