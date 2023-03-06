@@ -12,8 +12,8 @@ let captureOperation;
 
 const appendNum = (e) => {
   let numVal;
-  if (Number(e)) {
-    numVal = e;
+  if (Number(e) || e === ".") {
+    numVal = e.toString();
   } else {
     numVal = e.target.textContent;
   }
@@ -50,15 +50,31 @@ const setOperator = (e) => {
   if (captureOperation) {
     equalPressed();
   }
+
+  let operatorVal;
+  if (typeof e === "string") {
+    operatorVal = e;
+  } else {
+    operatorVal = e.target.value;
+  }
+
   prevNum = currNum;
   currNum = "";
-  isOperatorSet = e.target.value;
+  isOperatorSet = operatorVal;
 
   // Add 'pressed' class to desired operator
-  prevNum ? e.target.classList.add("pressed") : null;
+  if (prevNum && typeof e === "string") {
+    operators.forEach((operator) => {
+      if (operator.value === operatorVal) {
+        operator.classList.add("pressed");
+      }
+    });
+  } else {
+    prevNum ? e.target.classList.add("pressed") : null;
+  }
 };
 
-const equalPressed = (e) => {
+const equalPressed = () => {
   if (!currNum || !prevNum) return;
   switch (captureOperation) {
     case "add":
@@ -86,7 +102,10 @@ const equalPressed = (e) => {
     case "multiply":
       displayText.textContent =
         multiply(prevNum, currNum) % 1 != 0
-          ? multiply(Number(prevNum).toFixed(1), Number(currNum).toFixed(1))
+          ? multiply(
+              Number(prevNum).toFixed(1),
+              Number(currNum).toFixed(1)
+            ).toFixed(2)
           : multiply(prevNum, currNum);
 
       currNum =
@@ -194,8 +213,34 @@ deleteBtn.addEventListener("click", deleteNum);
 
 window.addEventListener("keydown", (e) => {
   const key = e.key;
-  if (key >= 0 && key <= 9) {
+  if ((key >= 0 && key <= 9) || key === ".") {
     appendNum(key);
     return;
+  }
+  switch (key) {
+    case "Backspace":
+      deleteNum();
+      break;
+    case "c":
+    case "C":
+      clearDisplay();
+      break;
+    case "+":
+      setOperator("add");
+      break;
+    case "-":
+      setOperator("subtract");
+      break;
+    case "*":
+      setOperator("multiply");
+      break;
+    case "/":
+      setOperator("divide");
+      break;
+    case "=":
+      equalPressed();
+      break;
+    default:
+      break;
   }
 });
